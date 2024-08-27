@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="/stylesheets/contact.css"> <!-- Link to your CSS file -->
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 style="font-size: 34px;">Course Match</h1>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i> <!-- Hamburger icon -->
+        </button>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/feed">Home</a></li>
+                <li><a href="/feeds">Feed</a></li>
+                <li><a href="/connections/">Connections</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <!-- <li class="dropdown">
+                    <a href="/profile"><button
+                            style="font-size: 16px; margin-top: -30px; margin-left: -5px;background-color: #3498db;"
+                            class="dropbtn"><strong>Profile</strong></button></a>
+                    <div class="dropdown-content">
+                        <a href="#">Settings</a>
+                        <a href="#" onclick="CreateGroup()">Create Group</a>
+                        <a href="/groups">Groups</a>
+                        <a href="/logout">Logout</a>
+                    </div>
+                </li> -->
+            </ul>
+        </nav>
+    </header>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/feed.js"></script>
+    <script>
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+    <!-- <header>
+        <div>
+            <h1 style="font-size: 34px;">Course Match</h1>
+        </div>
+        <nav>
+            <ul>
+
+                <li><a href="/feed">Home</a></li>
+                <li><a href="/courses">Courses</a></li>
+                 <li><a href="/profile">Profile</a></li>
+                <li><a href="/about">About</a></li>
+                 <li><a href="/contact">ContactUs</a></li> 
+                <li><a href="/profile">Profile</a></li>
+               
+            </ul>
+        </nav>
+    </header> -->
+    <main>
+        <h2>Contact Us</h2>
+        <section class="contact-form">
+            <% if (successMessage) { %>
+                <p style="color: green;"><%= successMessage %></p>
+            <% } %>
+            <form action="/submit_contact" method="POST">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+<br>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Course Match</p>
+    </footer>
+</body>
+
+</html>

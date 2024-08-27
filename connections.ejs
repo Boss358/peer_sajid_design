@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>connections</title>
+    <link rel="stylesheet" href="/stylesheets/connections.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 style="font-size: 34px;">Course Match</h1>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i> <!-- Hamburger icon -->
+        </button>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/feed">Home</a></li>
+                <li><a href="/feeds">Feed</a></li>
+                <li><a href="/connections/">Connections</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/feed.js"></script>
+    <script>
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+   
+    <div class="overlap"></div>
+    <div class="main">
+
+
+        <div class="connection" id="ConnectionsDiv">
+            <h1>CONNECTIONS</h1>
+            <hr>
+            <% connected.forEach(connection=> { %>
+
+                <div class="connectionList">
+                    <div class="connectionData">
+                        <img src="/images/alt-user-profile.jpg" alt="">
+                        <p style="margin-top: 10px; font-size: 17px;">
+                            <% if (connection.requester_id._id.toString() === user_id.toString()) { %>
+                                <%= connection.receiver_id.fullname %>
+                              <% } else { %>
+                                <%= connection.requester_id.fullname %>
+                              <% } %>
+
+                        </p>
+                    </div>
+                </div>
+                <% }) %>
+
+        </div>
+
+
+        <div class="connection" id="PendingConnectionsDiv">
+            <h2>PENDING REQUESTS</h2>
+            <hr>
+
+            <% sentRequests.forEach(request=> { %>
+
+                <div class="connectionList">
+                    <div class="connectionData">
+                        <img src="/images/alt-user-profile.jpg" alt="">
+                        <p style="margin-top: 10px; font-size: 17px;">
+                            <%=request.receiver_id.fullname%>
+                        </p>
+                    </div>
+
+                    <div style=" display:flex; gap: 10px; margin-top: 10px;">
+                        <button onclick="acceptFriendRequest('<%= request._id %>')" class="acceptBtn">accept</button>
+                        <i onclick="rejectFriendRequest('<%= request._id %>')" class="fa-solid fa-xmark"></i>
+                    </div>
+
+
+                </div>
+                <% }) %>
+
+        </div>
+        <div class="connection" id="SentConnectionDiv">
+            <h2>SENT REQUESTS</h2>
+            <hr>
+            <% requests.forEach(request=> { %>
+
+                <div class="connectionList">
+                    <div class="connectionData">
+                        <img src="/images/alt-user-profile.jpg" alt="">
+                        <p style="margin-top: 10px; font-size: 17px;">
+                            <%= request.requester_id.fullname %>
+                        </p>
+
+                    </div>
+
+                </div>
+                <% }) %>
+
+        </div>
+
+
+    </div>
+    <script src="/javascripts/connections.js"></script>
+   <script> document.getElementById('js-navbar-toggle').addEventListener('click', function() {
+        document.querySelector('.navbar').classList.toggle('active');
+    }); </script>
+</body>
+
+</html>
