@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Members</title>
+    <link rel="stylesheet" href="/stylesheets/group.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"
+        integrity="sha512-VJ6+sp2E5rFQk05caiXXzQd1wBABpjEj1r5kMiLmGAAgwPItw1YpqsCCBtq8Yr1x6C49/mTpRdXtq8O2RcZhlQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 style="font-size: 34px;">Course Match</h1>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i> <!-- Hamburger icon -->
+        </button>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/feed">Home</a></li>
+                <li><a href="/feeds">Feed</a></li>
+                <li><a href="/connections/<%=user._id%>">Connections</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/feed.js"></script>
+    <script>
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+    <!-- <header>
+        <h1 class="groupName"> Course Match</h1>
+        <div class="description"></div>
+        <nav>
+            
+            <ul>
+                <li><a href="/feed">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">ContactUs</a></li>
+                <li><a href="/profile">Profile</a></li>
+
+
+            </ul>
+        </nav>
+    </header> -->
+
+    <main>
+        <div id="message-container">
+            <div>
+
+                <section id="group-members">
+                    <h2>Group Members</h2>
+                    <hr>
+                    <div id="members-list">
+
+                        <!-- Members will be dynamically populated here -->
+                    </div>
+                </section>
+            </div>
+
+
+            <div>
+                <section id="messages">
+                    <h2>Group Chat</h2>
+                    <hr>
+                    <div id="message-box">
+
+
+                    </div>
+                </section>
+                <div style="position: absolute; width: 70%;" class="message-div">
+
+                    <form>
+                        <input type="text" id="message-input" placeholder="Type your message...">
+                        <!-- <input type="file" id="file-input"> -->
+
+                        <i id="upload-icon" class="fa-solid fa-paperclip"></i>
+                        <button style=" z-index: 2; position: absolute; height:28px; margin-left:10px;"
+                            type="submit">Send</button>
+                    </form>
+                    <form id="upload-form" hidden action="" enctype="multipart/form-data">
+                        <input type="file" id="file-input" name="file">
+                    </form>
+                    <span id="file-name" style="margin-left: 10px;"></span>
+                    <ul id="file-list">
+                </div>
+            </div>
+            <div class="groups-div">
+                <h2>Groups</h2>
+                <hr>
+                <%user.groups.forEach(function(group){%>
+                    <ul>
+                        <li class="group-item" data-group-id="<%= group._id %>" data-group-name="<%= group.name %>"
+                            data-group-description="<%=group.description%>">
+                            <a href="/images/uploads/<%=group.picture%>"><img src="/images/uploads/<%=group.picture%>"
+                                    alt=""></a>
+                            <span>
+
+                                <%=group.name%>
+                            </span>
+                            <i class="threeDot fa-solid fa-ellipsis-vertical"></i>
+                            <% if (group.creator._id.toString()===loggedInUser._id.toString()) { %>
+                                <div style="display: none;" class="removeDiv">
+                                    <a href="#" class="delete-group">Delete Group</a>
+                                    <a href="#" class="leave-group">Leave Group</a>
+                                    <!-- <button class="addMemberBtn">Add Members</button> -->
+
+                                </div>
+                                <% } else { %>
+                                    <div style="display: none;" class="removeDiv">
+                                        <a href="#" class="leave-group">Leave Group</a>
+                                    </div>
+                                    <% } %>
+
+                        </li>
+
+
+                        <hr>
+
+                    </ul>
+                    <%});%>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Course Match</p>
+    </footer>
+    <script>
+        var sender_id = '<%=loggedInUser._id%>';
+        // console.log(sender_id);
+        var socket = io('/user-namespace', {
+            auth: {
+                token: '<%=loggedInUser._id%>'
+            }
+        });
+
+      
+
+    </script>
+    <script src="/javascripts/group.js"></script>
+
+</body>
+
+</html>
